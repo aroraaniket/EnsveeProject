@@ -1,9 +1,14 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {useSelector,useDispatch} from 'react-redux'
 import { logout } from '../action/Auth';
 //import { useNavigate } from 'react-router-dom';
+import ClipLoader from "react-spinners/ClipLoader";
+import Spinner from '../layout/Spinner'
+
 function GetUser(props) {
    // let navigate = useNavigate();
+ 
+   let [color, setColor] = useState("#ffffff");
     const AuthData = useSelector((state) => state.AuthData);
 	const { loading, user ,error} = AuthData;
 const dispatch =useDispatch();
@@ -16,7 +21,7 @@ const Logout=async ()=>{
 
     return (loading ?
         <div>
-loading..
+  <ClipLoader color={color} loading={loading}  size={150} />
         </div>:
        
        <div class=" text-center "

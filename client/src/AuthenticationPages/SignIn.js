@@ -3,6 +3,7 @@ import RightPic from '../assests/images/Right.png'
 import {Link} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { signin } from '../action/Auth';
+import Spinner from '../layout/Spinner';
 //import { useNavigate } from 'react-router-dom';
 function SignIn(props) {
 
@@ -55,7 +56,7 @@ const onChange=(e)=>{
 
     return (loading ?
 		<div>
-			loading
+			<Spinner />
 		</div> :
         <div className="page-content">
 		<div className="form-v2-content">

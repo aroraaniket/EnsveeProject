@@ -2,6 +2,7 @@ import React, { useState,useEffect } from 'react'
 import { useSelector,useDispatch } from 'react-redux';
 import RightPic from '../assests/images/Right.png'
 import {Link} from 'react-router-dom'
+import {Spinner} from '../layout/Spinner'
 //import { useNavigate } from 'react-router-dom';
 import { register, signin } from '../action/Auth'
 const Spp=(props) =>{

@@ -1,5 +1,5 @@
 import React,{useEffect} from 'react';
-import { BrowserRouter ,Routes, HashRouter , Route, Switch } from 'react-router-dom';
+import { BrowserRouter ,HashRouter, Routes,  Route, Switch } from 'react-router-dom';
 import './App.css';
 import SignUp from './AuthenticationPages/SignUp';
 import SignIn from './AuthenticationPages/SignIn';
@@ -23,13 +23,13 @@ console.log(props)
   return (
     <Provider store={store}>
     <div className="App">
-     <BrowserRouter>
+     <HashRouter>
     
        <Route  exact path="/"  component={Spp} ></Route>
        <Route  exact path="/signin" component={SignIn} />
          <Route  exact path="/getUser" component={GetUser} />
      
-       </BrowserRouter>
+       </HashRouter>
    
     </div>
     </Provider>

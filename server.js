@@ -9,6 +9,11 @@ const app = express();
 connectDB();
 //body-parser
 
+
+/*IMPORTANT*/
+/* Run   npm run dev in  terminal to concurently start frontend and backend */
+
+
 app.use(express.json({ extended: false }));
 
 app.use('/api/users', require('./routes/auth'));
