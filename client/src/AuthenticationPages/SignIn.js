@@ -17,7 +17,7 @@ console.log(props);
 	})
 
 	const AuthData = useSelector((state) => state.AuthData);
-	const { loading, isAuthenticated } = AuthData;
+	const { loading, isAuthenticated ,error} = AuthData;
 
 	const dispatch = useDispatch();
 	
@@ -40,7 +40,7 @@ const onChange=(e)=>{
 	}
 	
 
-	
+	console.log(error);
 	useEffect(() => {
 		if (isAuthenticated) {
   
@@ -54,21 +54,18 @@ const onChange=(e)=>{
 	  }, [isAuthenticated]);
 
 
-    return (loading ?
-		<div>
-			<Spinner />
-		</div> :
+    return (
         <div className="page-content">
 		<div className="form-v2-content">
 		
 		<div className="form-right">
 			<form onSubmit={SubmitHandler} className="form-detail" action="#" method="post" id="myform">
 				<h2>Sign In 
-				<Link to="/signin"
-				style={{textDecoration:"none"}}
-				><p>Welcome, we missed you!</p></Link>
+				<p>Welcome, we missed you!</p>
 				</h2>
-				
+				<div style={{fontSize:"14px"}} className='text-danger'> 
+            {error && error[0].msg}
+          </div>
 				<div className="form-row">
 					<label for="your_email">Your Email</label>
 					<input type="text" name="email" id="your_email" 

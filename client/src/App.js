@@ -25,7 +25,7 @@ console.log(props)
     <div className="App">
      <HashRouter>
     
-       <Route  exact path="/"  component={Spp} ></Route>
+       <Route  exact path="/"  component={SignUp} ></Route>
        <Route  exact path="/signin" component={SignIn} />
          <Route  exact path="/getUser" component={GetUser} />
      

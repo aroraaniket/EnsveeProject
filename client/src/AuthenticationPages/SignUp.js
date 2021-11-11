@@ -1,203 +1,118 @@
-import React from 'react'
-
-function SignUp() {
-	return (
-		<div>
-			hello
-		</div>
-	)
-}
-
-export default SignUp
-
-
-/*import React, { Component } from 'react';
-
-import { Field, formInputData, formValidation } from 'reactjs-input-validator';
+import React, { useState,useEffect } from 'react'
+import { useSelector,useDispatch } from 'react-redux';
 import RightPic from '../assests/images/Right.png'
 import {Link} from 'react-router-dom'
-import PropTypes from 'prop-types';
-import { register } from '../action/Auth';
-import { connect } from 'react-redux';
-import axios from 'axios';
-export default  class Register extends Component {
+import {Spinner} from '../layout/Spinner'
+//import { useNavigate } from 'react-router-dom';
+import { register, signin } from '../action/Auth'
+const SignUp=(props) =>{
+  //  let navigate = useNavigate();
+const [NotMatch,setNotmatch]=useState(false);
+const [State,setState]=useState({
+    name:'',
+    email:'',
+    password:'',
+    confirmPassword:''
+})
 
 
+const AuthData = useSelector((state) => state.AuthData);
+	const { loading, user ,isAuthenticated,error} = AuthData;
+
+console.log(props);
+ const dispatch = useDispatch();
 
 
-  constructor() {
-    super();
-    this.state = {
-      data: {},
+const SubmitHandler=async (e)=>{
+    e.preventDefault();
+const {name,email,password,confirmPassword}=State;
+
+if(password!=confirmPassword){
+setNotmatch(true);
+}else{
+    dispatch(register(name,email,password));
+    props.history.push('/');
+}
+
+   
+    
+}
+
+useEffect(() => {
+    if (isAuthenticated) {
+
+   
+        props.history.push('/getUser');
+        }
+   
+    return () => {
+      //
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  }, [isAuthenticated]);
 
-  
-
-
-
-
-
-
-
-
- 
-  handleChange(event, inputValue, inputName, validationState, isRequired) {
-    const value = (event && event.target.value) || inputValue;
-    const { data } = this.state;
-    data[inputName] = { value, validation: validationState, isRequired };
-    this.setState({
-      data,
-    });
-  
-    // if you want access to your form data
-    const formData = formInputData(this.state.data); // eslint-disable-line no-unused-vars
-    // tells you if the entire form validation is true or false
-    const isFormValid = formValidation(this.state.data); // eslint-disable-line no-unused-vars
-  }
- 
-  handleSubmit(event) {
-    event.preventDefault();
-    const isFormValid = formValidation(this.state.data);
-	const { data } = this.state;
-	console.log(data);
-    if (isFormValid) {
-      // do anything including ajax calls
-	 // register({ name,email, password });
-	 const config = {
-		headers: {
-		  'Content-Type': 'application/json',
-		},
-	  };
-	 // const body = JSON.stringify(data);
-	 //const {data}=axios.post('http://localhost:7000/api/users/register',body,config);
- 
-    } else {
-      this.setState({ callAPI: true, shouldValidateInputs: !isFormValid });
-    }
-  }
- 
-  render() {
-    const passwordValue = this.state.data.password && this.state.data.password.value;
- 
-    return (
-		<div className="page-content">
-		<div className="form-v2-content">
-		
-		<div className="form-right">
-			<form   className="form-detail" action="#" method="post" id="myform">
-				<h2>Sign UP 
-				<Link to="/signin"
-				style={{textDecoration:"none"}}
-				><p>Don't have an account?</p></Link>
-				</h2>
-				<div className="form-row">
-				<Field
-              required
-              label="Full Name" name="fullName" placeholder="Ivan Pavlo"
-              onChange={this.handleChange}
-              value={this.state.data.fullName}
-              shouldValidateInputs={this.state.shouldValidateInputs}
-            />
-				</div>
-			
-				<div className="form-row">
-				<Field
-              validator="isEmail" required
-              label="Email" name="email" placeholder="Email"
-              onChange={this.handleChange}
-              value={this.state.data.email}
-              shouldValidateInputs={this.state.shouldValidateInputs}
-            />
- 
-				</div>
-				<div className="form-row">
-				<Field
-              validator="isAlphanumeric" required minLength={8}
-              minLengthErrMsg="Short passwords are easy to guess. Try one with atleast 8 characters"
-              label=" Password" name="password" type="password" placeholder="Enter you password"
-              onChange={this.handleChange}
-              value={this.state.data.password}
-              shouldValidateInputs={this.state.shouldValidateInputs}
-            />
-					</div>
-				<div className="form-row">
-				<Field
-              validator="equals" required comparison={passwordValue}
-              validatorErrMsg="These passwords don't match. Try again?"
-              label="Repeat Password" name="confirmPassword" type="password" placeholder="Enter you password"
-              onChange={this.handleChange}
-              value={this.state.data.confirmPassword}
-              shouldValidateInputs={this.state.shouldValidateInputs}
-            /></div>
-			
-				<div className="form-row-last">
-					<input type="submit" name="register" className="register" value="Sign Up" />
-				</div>
-			</form>
-			</div>
-			<div className="form-left">
-				<img src={RightPic} alt="form" />
-			</div>
-		
-		</div>
-	</div>
-    );
-  }
-}
-
-
-  
-
-
-/*import React from 'react'
-import RightPic from '../assests/images/Right.png'
-import {Link} from 'react-router-dom'
-import { Field } from 'reactjs-input-validator';
-function SignUp() {
-    return (
-        <div className="page-content">
-		<div className="form-v2-content">
-		
-		<div className="form-right">
-			<form className="form-detail" action="#" method="post" id="myform">
-				<h2>Sign UP 
-				<Link to="/signin"
-				style={{textDecoration:"none"}}
-				><p>Don't have an account?</p></Link>
-				</h2>
-				<div className="form-row">
-					<label for="full-name">Full Name</label>
-					<input type="text" name="full_name" id="full_name" className="input-text" placeholder="Ivan Pavlo" />
-				</div>
-			
-				<div className="form-row">
-					<label for="your_email">Your Email</label>
-					<input type="text" name="your_email" id="your_email" className="input-text" placeholder="Enter you Email"  required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" />
-				</div>
-				<div className="form-row">
-					<label for="password">Password</label>
-					<input type="password" name="password" id="password" className="input-text" placeholder="Enter you password" required />
-				</div>
-				<div className="form-row">
-					<label for="comfirm-password">Repeat Password</label>
-					<input type="password" name="confirm_password" id="confirm_password" placeholder="Enter you password" className="input-text" required />
-				</div>
-			
-				<div className="form-row-last">
-					<input type="submit" name="register" className="register" value="Sign Up" />
-				</div>
-			</form>
-			</div>
-			<div className="form-left">
-				<img src={RightPic} alt="form" />
-			</div>
-		
-		</div>
-	</div>
+            return (
+                 <div className="page-content">
+                <div className="form-v2-content">
+                
+                <div className="form-right">
+                    <form  onSubmit={SubmitHandler} className="form-detail" action="#" method="post" id="myform">
+                        <h2>Sign UP 
+                       <p>Don't have an account?</p>
+                        </h2>
+                        <div className="form-row">
+                        <div  style={{fontSize:"14px"}} className='text-danger'> 
+            {error && error[0].message}
+          </div>
+                            <label for="full-name">Full Name</label>
+                            <input type="text" name="name" id="full_name" className="input-text" 
+                            placeholder="Ivan Pavlo" 
+                            value={State.name}
+                             onChange={(e)=>setState({...State,name:e.target.value})}
+                            />
+                        </div>
+                    
+                        <div className="form-row">
+                            <label for="your_email">Your Email</label>
+                            <input type="text" name="email" id="your_email" className="input-text" 
+                            placeholder="Enter you Email"  required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" 
+                            value={State.email}
+                             onChange={(e)=>setState({...State,email:e.target.value})}
+                            />
+                        </div>
+                        <div className="form-row">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="password" className="input-text" 
+                            placeholder="Enter you password" 
+                            required
+                            value={State.password}
+                             onChange={(e)=>setState({...State,password:e.target.value})}
+                             />
+                        </div>
+                        <div className="form-row">
+                            <label for="comfirm-password">Repeat Password</label>
+                            <input type="password" name="confirm_password" id="confirm_password" placeholder="Enter you password"
+                             className="input-text" 
+                             value={State.confirmPassword}
+                              onChange={(e)=>setState({...State,confirmPassword:e.target.value})}
+                             required />
+                                   <span  style={{fontSize:"14px"}} className='text-danger'> 
+            {NotMatch  && "password do not match"}
+          </span>
+                        </div>
+                  
+                        <div className="form-row-last">
+                            <input type="submit"  className="register mb-2" value="Sign Up" />
+                            <span style={{fontSize:"14px"}}>Already have a account ?<Link to="signin"> Login</Link></span>
+                        </div>
+                    </form>
+                    </div>
+                    <div className="form-left">
+                        <img src={RightPic} alt="form" />
+                    </div>
+                
+                </div>
+            </div>
     )
 }
 
-export default SignUp*/
+export default SignUp

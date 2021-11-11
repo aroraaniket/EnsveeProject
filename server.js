@@ -11,7 +11,13 @@ connectDB();
 
 
 /*IMPORTANT*/
-/* Run   npm run dev in  terminal to concurently start frontend and backend */
+/* Run   npm run dev in  terminal to concurently start frontend and backend 
+
+or Run npm start in terminal to start backend 
+then cd client then run npm start to run frontend
+
+
+*/
 
 
 app.use(express.json({ extended: false }));
