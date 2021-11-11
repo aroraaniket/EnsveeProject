@@ -68,7 +68,7 @@ const register = (name, email, password) => async (dispatch) => {
   dispatch({
     type: USER_REGISTER_REQUEST,
     paylod: { name, email, password },
-  });
+  }); 
   const config = {
     headers: {
       'Content-Type': 'application/json',
